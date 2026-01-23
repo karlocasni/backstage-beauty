@@ -1,0 +1,24 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Post {
+  id            Int      @id @default(autoincrement())
+  title         String
+  shortDesc     String
+  content       String
+  instagramUrl  String?
+  youtubeUrl    String?
+  featuredImage String?
+  galleryImages String? // Stored as JSON string
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
