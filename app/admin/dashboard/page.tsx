@@ -1,19 +1,42 @@
 import { getPosts, deletePost } from "@/lib/actions";
+import { getSession, logout } from "@/lib/auth";
 import { GlassContainer } from "@/components/ui/GlassContainer";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Settings, LogOut } from "lucide-react";
+import { redirect } from "next/navigation";
+import { DeleteButton } from "@/components/admin/DeleteButton";
 
 export default async function DashboardPage() {
+    const session = await getSession();
+
+    if (!session) {
+        redirect("/admin/login");
+    }
+
     const posts = await getPosts();
 
     return (
         <div className="max-w-6xl mx-auto">
             <div className="flex justify-between items-center mb-8">
                 <h1 className="font-serif text-3xl font-bold text-dark-500">Dashboard</h1>
-                <Link href="/admin/dashboard/new">
-                    <Button>Create New Episode</Button>
-                </Link>
+                <div className="flex gap-3">
+                    <Link href="/admin/dashboard/settings">
+                        <Button variant="outline" size="md" className="gap-2">
+                            <Settings size={16} />
+                            Settings
+                        </Button>
+                    </Link>
+                    <form action={logout}>
+                        <Button variant="ghost" size="md" className="gap-2">
+                            <LogOut size={16} />
+                            Logout
+                        </Button>
+                    </form>
+                    <Link href="/admin/dashboard/new">
+                        <Button>Create New Episode</Button>
+                    </Link>
+                </div>
             </div>
 
             <GlassContainer className="bg-white p-0 overflow-hidden">
@@ -44,14 +67,12 @@ export default async function DashboardPage() {
                                     </td>
                                     <td className="p-6 text-right">
                                         <div className="flex justify-end gap-2">
-                                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                                                <Edit size={16} />
-                                            </Button>
-                                            <form action={deletePost.bind(null, post.id)}>
-                                                <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-500 hover:bg-red-50">
-                                                    <Trash2 size={16} />
+                                            <Link href={`/admin/dashboard/edit/${post.id}`}>
+                                                <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                                                    <Edit size={16} />
                                                 </Button>
-                                            </form>
+                                            </Link>
+                                            <DeleteButton id={post.id} deleteAction={deletePost} />
                                         </div>
                                     </td>
                                 </tr>

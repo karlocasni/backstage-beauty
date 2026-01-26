@@ -1,17 +1,19 @@
 
-
 import { GlassContainer } from "@/components/ui/GlassContainer";
 import { Button } from "@/components/ui/Button";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
 import { ArrowLeft, Instagram, Youtube, Calendar, Clock } from "lucide-react";
-import { getPost } from "@/lib/actions";
+import { Tiktok } from "@/components/icons/Tiktok";
+import { getPost, getRecentPosts } from "@/lib/actions";
+import { getYouTubeVideoId } from "@/lib/utils";
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const id = parseInt(slug.replace("post-", ""));
     const post = await getPost(id);
+    const recentPosts = await getRecentPosts(id);
 
     if (!post) {
         return (
@@ -37,7 +39,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             <Header />
 
             <div className="relative h-[60vh] w-full bg-gray-200 overflow-hidden">
-                <div className="absolute inset-0 bg-gray-800/30 z-10" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-black/95 z-10" />
+                <div
+                    className="absolute inset-0 backdrop-blur-sm z-10 pointer-events-none"
+                    style={{
+                        maskImage: "linear-gradient(to bottom, black 0%, transparent 20%, transparent 80%, black 100%)",
+                        WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 20%, transparent 80%, black 100%)"
+                    }}
+                />
 
                 {post.featuredImage ? (
                     <img src={post.featuredImage} alt={post.title} className="w-full h-full object-cover" />
@@ -54,8 +63,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         </Link>
                         <div className="max-w-4xl">
                             <div className="flex items-center gap-4 text-white/90 mb-4 text-sm font-medium">
-                                <span className="flex items-center gap-2"><Calendar size={16} /> {post.createdAt.toLocaleDateString()}</span>
-                                <span className="flex items-center gap-2"><Clock size={16} /> 45 min</span>
+                                <span className="flex items-center gap-2"><Calendar size={16} /> {new Date(post.createdAt).toLocaleDateString()}</span>
+                                {post.duration && (
+                                    <span className="flex items-center gap-2"><Clock size={16} /> {post.duration}</span>
+                                )}
                             </div>
                             <h1 className="font-serif text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
                                 {post.title}
@@ -89,6 +100,21 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             {post.shortDesc}
                         </p>
 
+                        {/* YouTube Embed */}
+                        {post.youtubeUrl && getYouTubeVideoId(post.youtubeUrl) && (
+                            <div className="mb-12 aspect-video rounded-xl overflow-hidden shadow-lg">
+                                <iframe
+                                    width="100%"
+                                    height="100%"
+                                    src={`https://www.youtube.com/embed/${getYouTubeVideoId(post.youtubeUrl)}`}
+                                    title="YouTube video player"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    className="w-full h-full"
+                                ></iframe>
+                            </div>
+                        )}
+
                         {/* Gallery Grid */}
                         {gallery.length > 0 && (
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
@@ -99,7 +125,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                         )}
 
 
-                        <div className="prose prose-lg prose-headings:font-serif prose-a:text-accent-200 hover:prose-a:text-accent-100 max-w-none text-gray-700"
+                        <div className="prose prose-lg prose-headings:font-serif prose-a:text-accent-200 hover:prose-a:text-accent-100 max-w-none text-gray-700 break-words"
                             dangerouslySetInnerHTML={{ __html: post.content }}
                         />
                     </div>
@@ -110,9 +136,30 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             <GlassContainer className="bg-white">
                                 <h3 className="font-serif text-2xl font-bold text-dark-500 mb-6">Preporučeno</h3>
 
-                                {/* Placeholder Recommended Logic */}
                                 <div className="space-y-6">
-                                    <p className="text-gray-400 italic text-sm">Više epizoda uskoro...</p>
+                                    {recentPosts.length > 0 ? (
+                                        recentPosts.map((recent) => (
+                                            <Link key={recent.id} href={`/blog/post-${recent.id}`} className="block group">
+                                                <div className="flex gap-4 items-center">
+                                                    <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                                                        {recent.featuredImage ? (
+                                                            <img src={recent.featuredImage} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                                        ) : (
+                                                            <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">No Img</div>
+                                                        )}
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-serif font-bold text-dark-500 group-hover:text-accent-200 transition-colors line-clamp-2 leading-tight">
+                                                            {recent.title}
+                                                        </h4>
+                                                        <p className="text-xs text-gray-400 mt-1">{new Date(recent.createdAt).toLocaleDateString()}</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        ))
+                                    ) : (
+                                        <p className="text-gray-400 italic text-sm">Nema drugih epizoda trenutno.</p>
+                                    )}
                                 </div>
 
                                 <div className="mt-8 pt-8 border-t border-gray-100">
@@ -125,11 +172,18 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                             </GlassContainer>
 
                             <div className="mt-8 bg-accent-100/20 p-8 rounded-3xl text-center">
-                                <h4 className="font-serif text-xl font-bold mb-2">Pretplati se</h4>
-                                <p className="text-sm text-gray-600 mb-4">Nikad ne propuštaj epizodu.</p>
+                                <h4 className="font-serif text-xl font-bold mb-2">Zaprati nas</h4>
+                                <p className="text-sm text-gray-600 mb-4">Nikad ne propusti epizodu.</p>
                                 <div className="flex justify-center gap-4">
-                                    <Button size="sm" variant="ghost" className="bg-white hover:bg-white/80"><Instagram size={20} /></Button>
-                                    <Button size="sm" variant="ghost" className="bg-white hover:bg-white/80"><Youtube size={20} /></Button>
+                                    <Button size="sm" variant="ghost" className="bg-white hover:bg-white/80 text-dark-500 hover:text-accent-200">
+                                        <Link href="https://www.instagram.com/backstagebeauty.podcast/" target="_blank"><Instagram size={20} /></Link>
+                                    </Button>
+                                    <Button size="sm" variant="ghost" className="bg-white hover:bg-white/80 text-dark-500 hover:text-red-500">
+                                        <Link href="https://www.youtube.com/@Backstage_Beauty" target="_blank"><Youtube size={20} /></Link>
+                                    </Button>
+                                    <Button size="sm" variant="ghost" className="bg-white hover:bg-white/80 text-dark-500 hover:text-black">
+                                        <Link href="https://www.tiktok.com/@backstagebeauty.podcast?_r=1&_t=ZN-93MqxpbG6v0" target="_blank"><Tiktok size={20} /></Link>
+                                    </Button>
                                 </div>
                             </div>
                         </div>

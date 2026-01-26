@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/Button";
 
 export function ContactForm() {
     return (
-        <section id="contact" className="py-24 bg-gray-50 relative">
-            <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-200/5 skew-x-12" />
+        <section id="contact" className="py-24 bg-accent-200/20 relative overflow-hidden">
+
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="flex flex-col lg:flex-row gap-16 items-start">
@@ -15,10 +15,10 @@ export function ContactForm() {
                     <div className="lg:w-1/3">
                         <span className="font-handwriting text-2xl text-accent-200">Kontaktirajte Nas</span>
                         <h2 className="font-serif text-4xl md:text-5xl font-bold text-dark-500 mt-2 mb-6">
-                            Volio Bi Čuti Od Vas
+                            Javite nam se!
                         </h2>
                         <p className="text-gray-600 mb-8">
-                            Imate prijedlog za temu, proizvod koji bismo trebali recenzirati ili samo želite reći zdravo? Ispunite obrazac ispod.
+                            Imate prijedlog za temu, osobu koju bismo trebali ugostiti ili komentar za nas? Voljeli bismo vas čuti!
                         </p>
 
                         <div className="space-y-4">

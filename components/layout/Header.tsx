@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Menu, X, Instagram, Youtube } from "lucide-react";
+import { Tiktok } from "@/components/icons/Tiktok";
 
 export function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -51,11 +52,14 @@ export function Header() {
                 </nav>
 
                 <div className="hidden md:flex items-center gap-4">
-                    <Link href="#" className="hover:text-accent-200 transition-colors">
+                    <Link href="https://www.instagram.com/backstagebeauty.podcast/" target="_blank" className="hover:text-accent-200 transition-colors">
                         <Instagram size={20} />
                     </Link>
-                    <Link href="#" className="hover:text-red-500 transition-colors">
+                    <Link href="https://www.youtube.com/@Backstage_Beauty" target="_blank" className="hover:text-red-500 transition-colors">
                         <Youtube size={20} />
+                    </Link>
+                    <Link href="https://www.tiktok.com/@backstagebeauty.podcast?_r=1&_t=ZN-93MqxpbG6v0" target="_blank" className="hover:text-black transition-colors">
+                        <Tiktok size={20} />
                     </Link>
                 </div>
 
@@ -82,11 +86,14 @@ export function Header() {
                         </Link>
                     ))}
                     <div className="flex gap-4 pt-4 justify-center">
-                        <Link href="#" className="hover:text-accent-200 transition-colors">
+                        <Link href="https://www.instagram.com/backstagebeauty.podcast/" target="_blank" className="hover:text-accent-200 transition-colors">
                             <Instagram size={24} />
                         </Link>
-                        <Link href="#" className="hover:text-red-500 transition-colors">
+                        <Link href="https://www.youtube.com/@Backstage_Beauty" target="_blank" className="hover:text-red-500 transition-colors">
                             <Youtube size={24} />
+                        </Link>
+                        <Link href="https://www.tiktok.com/@backstagebeauty.podcast?_r=1&_t=ZN-93MqxpbG6v0" target="_blank" className="hover:text-black transition-colors">
+                            <Tiktok size={24} />
                         </Link>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 className={cn(
-                    "rounded-full transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
+                    "cursor-pointer rounded-full transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
                     variants[variant],
                     sizes[size],
                     className

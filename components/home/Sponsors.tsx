@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 const sponsors = [
-    "Sephora", "Glossier", "Fenty Beauty", "Charlotte Tilbury", "Mac", "Tatcha"
+    "Callux"
 ];
 
 export function Sponsors() {
@@ -11,10 +11,10 @@ export function Sponsors() {
         <section className="py-16 bg-white border-b border-gray-50">
             <div className="container mx-auto px-6 text-center">
                 <p className="font-sans text-xs font-bold tracking-widest text-gray-400 uppercase mb-8">
-                    Pouzdani od Vodećih Brendova
+                    Naši sponzori
                 </p>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-70">
+                <div className="flex flex-wrap justify-center gap-8 items-center">
                     {sponsors.map((sponsor, index) => (
                         <motion.div
                             key={sponsor}
@@ -22,7 +22,7 @@ export function Sponsors() {
                             className="flex justify-center grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
                         >
                             {/* Logo Placeholder - using text for now but tailored for visual check */}
-                            <span className="font-serif font-bold text-xl md:text-2xl text-gray-300 hover:text-dark-500 transition-colors">
+                            <span className="font-serif font-bold text-xl md:text-2xl text-gray-600 hover:text-dark-500 transition-colors">
                                 {sponsor}
                             </span>
                         </motion.div>

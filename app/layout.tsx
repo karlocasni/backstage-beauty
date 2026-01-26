@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dancingScript.variable} ${playfairDisplay.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${dancingScript.variable} ${playfairDisplay.variable} ${montserrat.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased text-dark-500 bg-white selection:bg-accent-100 selection:text-dark-500">
         {children}
       </body>
