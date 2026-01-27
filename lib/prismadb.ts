@@ -3,9 +3,18 @@ import path from "path";
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-// Use absolute path for the database file to ensure it works in all environments
-// const dbPath = path.join(process.cwd(), "prisma", "dev.db");
-// process.env.DATABASE_URL = `file:${dbPath}`;
+// Fix: Strip quotes from env vars if they were accidentally added in Vercel
+const sanitizeEnv = (key: string) => {
+    const value = process.env[key];
+    if (value && (value.startsWith('"') || value.startsWith("'"))) {
+        const cleanValue = value.slice(1, -1);
+        console.log(`Sanitized ${key}: removed quotes`);
+        process.env[key] = cleanValue;
+    }
+};
+
+sanitizeEnv("DATABASE_URL");
+sanitizeEnv("DIRECT_URL");
 
 export const prisma =
     globalForPrisma.prisma ||
