@@ -56,13 +56,13 @@ export function Hero() {
                 transition={{ delay: 0.5, duration: 1 }}
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-4"
             >
-                <a href="#" className="bg-white/50 backdrop-blur-sm p-3 rounded-full hover:bg-white hover:scale-110 transition-all duration-300 shadow-sm border border-white/40">
+                <a href="https://www.instagram.com/backstagebeauty.podcast/" target="_blank" rel="noopener noreferrer" className="bg-white/50 backdrop-blur-sm p-3 rounded-full hover:bg-white hover:scale-110 transition-all duration-300 shadow-sm border border-white/40">
                     <Instagram className="text-dark-500" size={24} />
                 </a>
-                <a href="#" className="bg-white/50 backdrop-blur-sm p-3 rounded-full hover:bg-white hover:scale-110 transition-all duration-300 shadow-sm border border-white/40">
+                <a href="https://www.youtube.com/@Backstage_Beauty" target="_blank" rel="noopener noreferrer" className="bg-white/50 backdrop-blur-sm p-3 rounded-full hover:bg-white hover:scale-110 transition-all duration-300 shadow-sm border border-white/40">
                     <Youtube className="text-dark-500" size={24} />
                 </a>
-                <a href="#" className="bg-white/50 backdrop-blur-sm p-3 rounded-full hover:bg-white hover:scale-110 transition-all duration-300 shadow-sm border border-white/40">
+                <a href="https://www.tiktok.com/@backstagebeauty.podcast?_r=1&_t=ZN-93MqxpbG6v0" target="_blank" rel="noopener noreferrer" className="bg-white/50 backdrop-blur-sm p-3 rounded-full hover:bg-white hover:scale-110 transition-all duration-300 shadow-sm border border-white/40">
                     <Tiktok className="text-dark-500" size={24} />
                 </a>
             </motion.div>
